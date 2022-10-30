@@ -1,0 +1,6 @@
+{
+  "extends": ["@wallwhite/eslint-config-react-ts"],
+  "rules": {
+    "@typescript-eslint/no-var-requires": 0
+  }
+}

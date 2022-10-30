@@ -1,0 +1,90 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Movie {
+  id         Int        @id @default(autoincrement())
+  title      String     @unique @db.VarChar(255)
+  budget     Int       
+  overview   String     @db.Text
+  rating     Int        @default(1)
+  genres     MovieGenre[]
+  actors     MovieActor[] 
+  director   Director   @relation(fields: [directorID], references: [id])
+  directorID Int
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@map(name: "movie")
+}
+
+model Genre {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(255)
+  movies    MovieGenre[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map(name: "genre")
+}
+
+
+model Actor {
+  id           Int             @id @default(autoincrement())
+  name         String          @unique @db.VarChar(255)
+  movies       MovieActor[]         
+  nationality  NationalityType @default(UKRAINIAN)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@map(name: "actor")
+}
+
+model MovieGenre {
+  id        Int    @id @default(autoincrement())
+  movie     Movie   @relation(fields: [movieID], references: [id])
+  movieID   Int
+  genre     Genre   @relation(fields: [genreID], references: [id])
+  genreID   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map(name: "movie_genre")
+}
+
+model MovieActor {
+  id        Int     @id @default(autoincrement())
+  movie     Movie   @relation(fields: [movieID], references: [id])
+  movieID   Int
+  actor     Actor   @relation(fields: [actorID], references: [id])
+  actorID   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map(name: "movie_actor")
+}
+
+model Director {
+  id           Int             @id @default(autoincrement())
+  name         String          @unique @db.VarChar(255)
+  nationality  NationalityType @default(UKRAINIAN)
+  movies       Movie[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+ 
+  @@map(name: "director")
+}
+
+enum NationalityType {
+  UKRAINIAN
+  AMERICAN
+  FRANCE
+  BRITISH
+  CANADIAN
+  MEXICAN
+}
