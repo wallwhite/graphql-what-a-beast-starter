@@ -1,7 +1,7 @@
 
 ## Introduction
 
-This is an educational boilerplate created for a report on creating your own GraphQL server.
+This is an educational boilerplate created for a lesson about creating your own GraphQL server.
 
 This code is not safe for production use.
 
