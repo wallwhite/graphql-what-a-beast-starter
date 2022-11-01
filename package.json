@@ -7,7 +7,8 @@
     "start": "ts-node-dev --no-notify --files ./src/index.ts",
     "seed": "ts-node prisma/seed.ts",
     "generate": "prisma generate",
-    "postinstall": "yarn generate"
+    "db": "prisma db push",
+    "postinstall": "yarn generate && yarn db"
   },
   "keywords": [
     "Graphql",
