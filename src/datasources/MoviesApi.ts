@@ -175,11 +175,17 @@ class MoviesApi extends DataSource {
         });
     }
 
-    async removeMovie(id: number): Promise<Movie> {
-        return this.database.movie.delete({
-            where: { id },
+    async removeMovie(id: number): Promise<void> {
+        await this.database.movieGenre.deleteMany({
+            where: { movieID: id },
+        });
+        await this.database.movie.delete({
+            where: {
+                id,
+            },
             include: {
-                genres: true,
+                genres: false,
+                actors: false,
             },
         });
     }
